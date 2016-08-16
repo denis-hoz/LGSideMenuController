@@ -1681,8 +1681,9 @@
             CGFloat shiftLeft = -44.f;
             CGFloat shiftRight = (_swipeGestureArea == LGSideMenuSwipeGestureAreaBorders ? (self.isLeftViewShowing ? 22.f : 44.f) :  _rootVC.view.bounds.size.width);
 
-            if (velocityDone && location.x >= interactiveX+shiftLeft && location.x <= interactiveX+shiftRight)
-            {
+			if (velocityDone && location.x >= interactiveX+shiftLeft && location.x <= interactiveX+shiftRight &&
+				location.y > self.topMargenForGesture && location.y < size.height - self.bottomMargenForGesture )
+			{
                 _leftViewGestireStartX = [NSNumber numberWithFloat:location.x];
                 _leftViewShowingBeforeGesture = _leftViewShowing;
 

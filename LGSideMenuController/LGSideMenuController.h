@@ -230,6 +230,10 @@ typedef NS_ENUM(NSUInteger, LGSideMenuSwipeGestureArea)
 @property (assign, nonatomic) IBInspectable BOOL shouldShowLeftView;
 @property (assign, nonatomic) IBInspectable BOOL shouldShowRightView;
 
+/**  margens for top and bottom area for pangesture. */
+@property (assign, nonatomic) IBInspectable CGFloat topMargenForGesture;
+@property (assign, nonatomic) IBInspectable CGFloat bottomMargenForGesture;
+
 - (instancetype)initWithRootViewController:(UIViewController *)rootViewController;
 
 - (UIView *)leftView;
