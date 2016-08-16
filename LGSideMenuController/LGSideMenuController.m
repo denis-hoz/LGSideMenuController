@@ -305,7 +305,7 @@
     _panGesture.cancelsTouchesInView = YES;
     [self.view addGestureRecognizer:_panGesture];
 
-    self.touchForwardingClasses = [NSMutableSet setWithArray:@[[UIControl class]]];
+    self.touchForwardingClasses = [NSMutableSet setWithArray:@[[UIControl class], [UITableViewCell class]]];
 }
 
 #pragma mark - Dealloc
@@ -1788,7 +1788,8 @@
         do {
             // If the touch was in a touch forwarding view, don't handle the gesture
             [self.touchForwardingClasses enumerateObjectsUsingBlock:^(Class touchForwardingClass, BOOL *stop) {
-                if ([view isKindOfClass:touchForwardingClass]) {
+				if ([view isKindOfClass:touchForwardingClass] ||
+					[view.superview isKindOfClass:touchForwardingClass]) {
                     shouldReceiveTouch = NO;
                     *stop = YES;
                 }
