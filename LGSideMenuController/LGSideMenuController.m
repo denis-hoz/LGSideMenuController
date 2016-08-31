@@ -356,12 +356,31 @@
 
 - (BOOL)prefersStatusBarHidden
 {
-    return (kLGSideMenuIsMenuShowing ? _currentPreferredStatusBarHidden : (_rootVC ? _rootVC.prefersStatusBarHidden : (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)));
+	if (kLGSideMenuIsMenuShowing) {
+		return _currentPreferredStatusBarHidden;
+	} else if (_rootVC.childViewControllerForStatusBarHidden) {
+		return _rootVC.childViewControllerForStatusBarHidden.prefersStatusBarHidden;
+	} else if (_rootVC) {
+		return _rootVC.prefersStatusBarHidden;
+	} else {
+		BOOL interfaceOrientationIsLandscape = UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation);
+		BOOL userInterfaceIdiomIsPhone = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone;
+		
+		return  interfaceOrientationIsLandscape && userInterfaceIdiomIsPhone;
+	}
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-    return (kLGSideMenuIsMenuShowing ? _currentPreferredStatusBarStyle : (_rootVC ? _rootVC.preferredStatusBarStyle : UIStatusBarStyleDefault));
+	if (kLGSideMenuIsMenuShowing) {
+		return _currentPreferredStatusBarStyle;
+	} else if (_rootVC.childViewControllerForStatusBarStyle) {
+		return _rootVC.childViewControllerForStatusBarStyle.preferredStatusBarStyle;
+	} else if (_rootVC) {
+		return _rootVC.preferredStatusBarStyle;
+	} else {
+		return UIStatusBarStyleDefault;
+	}
 }
 
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation
@@ -374,8 +393,10 @@
 
         animation = _currentPreferredStatusBarUpdateAnimation;
     }
-    else if (_rootVC)
-        animation = _rootVC.preferredStatusBarUpdateAnimation;
+	else if (_rootVC.childViewControllerForStatusBarStyle)
+		animation = _rootVC.childViewControllerForStatusBarStyle.preferredStatusBarUpdateAnimation;
+	else if (_rootVC)
+		animation = _rootVC.preferredStatusBarUpdateAnimation;
 
     return animation;
 }
