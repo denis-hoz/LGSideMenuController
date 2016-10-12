@@ -374,8 +374,8 @@
 {
 	if (kLGSideMenuIsMenuShowing) {
 		return _currentPreferredStatusBarStyle;
-	} else if (_rootVC.childViewControllerForStatusBarStyle) {
-		return _rootVC.childViewControllerForStatusBarStyle.preferredStatusBarStyle;
+    } else if (_rootVC.childViewControllers.lastObject) {
+        return _rootVC.childViewControllers.lastObject.preferredStatusBarStyle;
 	} else if (_rootVC) {
 		return _rootVC.preferredStatusBarStyle;
 	} else {
